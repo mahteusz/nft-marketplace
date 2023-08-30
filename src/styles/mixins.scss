@@ -1,8 +1,11 @@
 @import './variables.scss';
 
-@mixin fontify($font, $weight, $size) {
+@mixin themify($property, $key) {
+  #{$property}: map-get($default-theme, $key);
+}
+
+@mixin fontify($weight, $size) {
   & {
-    #{font-family}: #{map-get($fonts, $font), sans-serif};
     #{font-weight}: $weight;
     #{font-size}: map-get($fonts-sizes, $size);
   }

@@ -1,11 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Halant:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Mega:wght@400;700&family=Mukta+Vaani:wght@300&display=swap');
 
 * {
   margin: 0;
 	padding: 0;
   box-sizing: border-box;
-  font-family:'Montserrat', sans-serif;
+  font-family: 'Lexend Mega', sans-serif;
 }
 
 :root {

@@ -1,8 +1,8 @@
+import { Header } from '../../components'
 import './styles.scss'
-
 const Explore = () => {
   return (
-    <div>Explore</div>
+    <div><Header /></div>
   )
 }
 
