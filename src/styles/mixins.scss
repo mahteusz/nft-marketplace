@@ -1,0 +1,21 @@
+@import './variables.scss';
+
+@mixin fontify($font, $weight, $size) {
+  & {
+    #{font-family}: #{map-get($fonts, $font), sans-serif};
+    #{font-weight}: $weight;
+    #{font-size}: map-get($fonts-sizes, $size);
+  }
+}
+
+@mixin spacify($property, $size) {
+  & {
+    #{$property}: map-get($spaces, $size);
+  }
+}
+
+@mixin respond($breakpoint) {
+  @media (min-width: map-get($breakpoints, $breakpoint)) {
+    @content
+  }
+}
