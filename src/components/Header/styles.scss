@@ -16,6 +16,18 @@
     align-items: center;
     width: 100%;
 
+    @include respond(sm) {
+      width: 80%;
+    }
+
+    @include respond(md) {
+      width: 50%;
+    }
+
+    @include respond(lg) {
+      width: 35%;
+    }
+
   }
 
   &__navigation-item {
@@ -24,6 +36,8 @@
     align-items: center;
     justify-content: center;
     transition: all 0.25s ease;
+
+    @include spacify(gap, x-small);
 
     &:hover {
       transform: scale(1.05);
@@ -36,6 +50,14 @@
     @include fontify(bold, x-small);
     position: relative;
     z-index: 2;
+  }
+
+  &__navigation-item-icon {
+    font-size: 3.5rem;
+
+    @include respond(md) {
+      font-size: 4.5rem;
+    }
   }
 }
 

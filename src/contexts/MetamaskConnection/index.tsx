@@ -12,15 +12,11 @@ export const MetamaskConnectionProvider = ({ children }: MetamaskConnectionProvi
   useEffect(() => {
     if (!window.ethereum) return setError("Por favor, instale o Metamask")
 
+    setWallet(window.ethereum._state.accounts)
     window.ethereum.on('accountsChanged', setWallet);
-    window.ethereum.on('connect', setWallet);
-    window.ethereum.on('disconnect', clearWallet);
-    connect()
 
     return () => {
       window.ethereum.removeListener('accountsChanged', setWallet);
-      window.ethereum.removeListener('connect', setWallet);
-      window.ethereum.removeListener('disconnect', clearWallet);
     }
   }, [])
 
@@ -29,7 +25,7 @@ export const MetamaskConnectionProvider = ({ children }: MetamaskConnectionProvi
   }
 
   const setWallet = async (accounts: string[]) => {
-    if (!accounts || !accounts.length) return setError("Nenhuma conta encontrada no Metamask")
+    if (!accounts || !accounts.length) return clearWallet()
 
     setConnectedWallet(accounts[0])
   }
@@ -37,7 +33,6 @@ export const MetamaskConnectionProvider = ({ children }: MetamaskConnectionProvi
   const clearWallet = async () => {
     setConnectedWallet('')
   }
-
 
   return (
     <MetamaskConnectionContext.Provider value={{ connectedWallet, error, connect }}>
