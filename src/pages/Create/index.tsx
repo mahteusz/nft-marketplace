@@ -1,8 +1,12 @@
 import './styles.scss'
+import { Header, UploadForm } from '../../components'
 
 const Create = () => {
   return (
-    <div>Create</div>
+    <>
+      <Header />
+      <UploadForm />
+    </>
   )
 }
 
