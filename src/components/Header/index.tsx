@@ -1,14 +1,14 @@
 import './styles.scss'
 import { MdOutlineExplore, MdOutlineUpload, MdOutlineToken, MdLogin } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
-import { useMetamaskConnection } from '../../contexts/MetamaskConnection/useMetamaskConnection'
+import { useNFTWrite } from '../../contexts/NFTWrite/useNFTWrite'
 //@ts-ignore
 import Blockies from 'react-blockies'
 import { minifyWalletAddress } from '../utils'
 
 const Header = () => {
 
-  const metamaskConnection = useMetamaskConnection()
+  const nftWrite = useNFTWrite()
   const navigate = useNavigate()
 
   const renderBaseNavigationItems = () => {
@@ -32,7 +32,7 @@ const Header = () => {
       <>
         <div
           className='header__navigation-item'
-          onClick={() => metamaskConnection.connect()}
+          onClick={() => nftWrite.connect()}
         >
           <MdLogin className='header__navigation-item-icon' />
           <span className='header__navigation-item-name'>
@@ -75,9 +75,9 @@ const Header = () => {
         <div
           className='header__navigation-item'
         >
-          <Blockies seed={metamaskConnection.connectedWallet} />
+          <Blockies seed={nftWrite.connectedWallet} />
           <span className='header__navigation-item-name'>
-            {minifyWalletAddress(metamaskConnection.connectedWallet)}
+            {minifyWalletAddress(nftWrite.connectedWallet)}
           </span>
         </div>
       </>
@@ -88,7 +88,7 @@ const Header = () => {
     <header className='header'>
       <nav className='header__navigation'>
         {renderBaseNavigationItems()}
-        {metamaskConnection.connectedWallet ? renderConnectedUserNavigationItems() : renderDisconnectedUserNavigationItems()}
+        {nftWrite.connectedWallet ? renderConnectedUserNavigationItems() : renderDisconnectedUserNavigationItems()}
       </nav>
     </header>
   )

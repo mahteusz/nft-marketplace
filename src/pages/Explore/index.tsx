@@ -1,9 +1,7 @@
 import { Header } from '../../components'
 import './styles.scss'
-import { useMetamaskConnection } from '../../contexts/MetamaskConnection/useMetamaskConnection'
-const Explore = () => {
 
-  const metamaskConnection = useMetamaskConnection()
+const Explore = () => {
 
   return (
     <div><Header /></div>
