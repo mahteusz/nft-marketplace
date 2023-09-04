@@ -26,5 +26,13 @@
 
     @include themify(background-color, secondary);
     @include spacify(padding, medium);
+
+    @include respond(md) {
+      width: 60%;
+    }
+
+    @include respond(lg) {
+      width: 40%;
+    }
   }
 }

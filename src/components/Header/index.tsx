@@ -10,7 +10,6 @@ const Header = () => {
 
   const nftWrite = useNFTWrite()
   const navigate = useNavigate()
-  console.log(nftWrite.connectedWallet)
 
   const renderBaseNavigationItems = () => {
     return (

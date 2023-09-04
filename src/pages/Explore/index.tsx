@@ -1,4 +1,4 @@
-import { Header, NFTBuyCard } from '../../components'
+import { Header, Offers } from '../../components'
 import './styles.scss'
 
 const Explore = () => {
@@ -6,7 +6,7 @@ const Explore = () => {
   return (
     <div>
       <Header />
-      <NFTBuyCard />
+      <Offers />
     </div>
   )
 }

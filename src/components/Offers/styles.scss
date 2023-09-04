@@ -1,0 +1,9 @@
+@import '../../styles/mixins.scss';
+
+.offers {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  @include spacify(gap, x-large);
+}

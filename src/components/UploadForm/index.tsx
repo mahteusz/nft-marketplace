@@ -54,6 +54,7 @@ const UploadForm = () => {
     setStep(STEPS.WAITING_TX)
     await nftWrite.create(token.ipnft)
     setStep(STEPS.SUCCESS)
+    setAttributes([])
   }
 
   const isValid = () => {

@@ -9,7 +9,7 @@
   box-shadow: 0.4rem 0.4rem;
   width: 95%;
   margin: auto;
-  margin-top: 0;
+  margin-bottom: 0;
 
   @include spacify(padding, medium);
   @include spacify(margin-top, x-small);

@@ -4,9 +4,9 @@ import Web3 from "web3"
 import { Contract } from 'web3-eth-contract'
 import NFTMarketplace from '../../contracts/ABI/NFTMarketplace.json'
 import { AbiItem } from 'web3-utils';
+import { CONTRACT_ADDRESS } from '../../util/contracts';
 
 const CONTRACT_ABI = NFTMarketplace as unknown as AbiItem
-const CONTRACT_ADDRESS = "0xDcd2F9479e8e609813f95c0B97546F75e6094f38"
 
 export const NFTWriteContext = createContext<NFTWriteContextData>(
   {} as NFTWriteContextData
