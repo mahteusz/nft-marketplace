@@ -1,10 +1,13 @@
-import { Header } from '../../components'
+import { Header, NFTBuyCard } from '../../components'
 import './styles.scss'
 
 const Explore = () => {
 
   return (
-    <div><Header /></div>
+    <div>
+      <Header />
+      <NFTBuyCard />
+    </div>
   )
 }
 

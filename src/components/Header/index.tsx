@@ -10,6 +10,7 @@ const Header = () => {
 
   const nftWrite = useNFTWrite()
   const navigate = useNavigate()
+  console.log(nftWrite.connectedWallet)
 
   const renderBaseNavigationItems = () => {
     return (
@@ -75,7 +76,7 @@ const Header = () => {
         <div
           className='header__navigation-item'
         >
-          <Blockies seed={nftWrite.connectedWallet} />
+          <Blockies seed={nftWrite.connectedWallet} scale={3.5}/>
           <span className='header__navigation-item-name'>
             {minifyWalletAddress(nftWrite.connectedWallet)}
           </span>

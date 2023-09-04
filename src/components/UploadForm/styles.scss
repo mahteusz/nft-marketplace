@@ -58,6 +58,12 @@
     border: 0.3rem solid;
     box-shadow: 0.4rem 0.4rem;
     border-radius: 0.5rem;
+    transition: all 0.25s ease;
+
+    &:hover {
+      transform: scale(1.05);
+      cursor: pointer;
+    }
 
     @include spacify(padding, x-small);
     @include spacify(gap, x-small);
@@ -107,6 +113,12 @@
     border: 0.3rem solid;
     box-shadow: 0.4rem 0.4rem;
     border-radius: 0.5rem;
+    transition: all 0.25s ease;
+
+    &:hover {
+      transform: scale(1.05);
+      cursor: pointer;
+    }
 
     @include spacify(padding, x-small);
     @include themify(background-color, secondary);
