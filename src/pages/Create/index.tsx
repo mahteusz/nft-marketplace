@@ -5,7 +5,10 @@ const Create = () => {
   return (
     <>
       <Header />
-      <UploadForm />
+      <div className='create-content'>
+        <h1 className='create-content__title'>Crie seu NFT facilmente!</h1>
+        <UploadForm />
+      </div>
     </>
   )
 }

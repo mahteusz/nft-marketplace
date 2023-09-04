@@ -1,0 +1,20 @@
+@import '../../styles/mixins.scss';
+
+.create-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+
+  @include spacify(padding, x-large);
+  @include spacify(gap, large);
+
+  @include respond(lg) {
+    width: 50%;
+  }
+
+  &__title {
+    text-align: center;
+    @include fontify(bold, medium);
+  }
+}
