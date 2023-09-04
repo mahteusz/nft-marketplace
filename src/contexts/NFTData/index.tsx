@@ -1,10 +1,11 @@
 import { useState, createContext, useEffect } from 'react'
-import { NFTData, NFTContextData, NFTProviderData } from './types'
+import { NFTData, NFT, NFTContextData, NFTProviderData } from './types'
 import Web3 from "web3"
 import { Contract } from 'web3-eth-contract'
 import { AbiItem } from 'web3-utils';
 import NFTMarketplace from '../../contracts/ABI/NFTMarketplace.json'
 import { CONTRACT_ADDRESS } from '../../util/contracts';
+import getDataByCID, { IPFSData, getImageByCID } from '../../util/getTokenData';
 
 const CONTRACT_ABI = NFTMarketplace as unknown as AbiItem
 
@@ -13,7 +14,7 @@ export const NFTContext = createContext<NFTContextData>(
 )
 
 export const NFTProvider = ({ children }: NFTProviderData) => {
-  const [nfts, setNfts] = useState<NFTData[]>([])
+  const [nfts, setNfts] = useState<NFT[]>([])
   const [contract, setContract] = useState<Contract>({} as Contract)
 
   useEffect(() => {
@@ -30,7 +31,7 @@ export const NFTProvider = ({ children }: NFTProviderData) => {
     setContract(newContract)
   }
 
-  const getTokens = async () => {    
+  const getTokens = async () => {
     const tokens: string[] = []
     const transfers = await contract?.getPastEvents("Transfer", {
       filter: {
@@ -66,22 +67,64 @@ export const NFTProvider = ({ children }: NFTProviderData) => {
     return uris
   }
 
-  const getAllNfts = async () => {
-    if(!contract) return
+  const getNftMetadata = async (uri: string) => {
+    const metadata = await getDataByCID(uri)
+    const img = await getImageByCID(metadata.image['/'])
+    return {
+      metadata,
+      img
+    }
+  }
 
-    const tokens = await getTokens()
-    const uris = await getTokensUri(tokens)
-    const owners = await getTokensOwners(tokens)
-    const nfts: NFTData[] = []
+  const getNftsData = async (tokens: string[], uris: string[], owners: string[]) => {
+    const nftsData: NFTData[] = []
     tokens.forEach((token, index) => {
-      nfts.push({
+      nftsData.push({
         token,
         uri: uris[index],
         owner: owners[index]
       })
     })
 
-    setNfts(nfts)
+    return nftsData
+  }
+
+  const getNftsMedatada = async (tokens: string[], uris: string[]) => {
+    const promises: Promise<{ metadata: IPFSData, img: string }>[] = []
+    tokens.forEach((_, index) => {
+      promises.push(getNftMetadata(uris[index]))
+    })
+
+    const metadata = await Promise.all(promises)
+    return metadata
+  }
+
+
+  const getAllNfts = async () => {
+    if (!contract) return
+
+    const tokens = await getTokens()
+    const uris = await getTokensUri(tokens)
+    const owners = await getTokensOwners(tokens)
+    const nftsData = await getNftsData(tokens, uris, owners)
+    const nftsMetadata = await getNftsMedatada(tokens, uris)
+    const newNfts: NFT[] = []
+
+    tokens.forEach((_, index) => {
+      const metadata = nftsMetadata[index].metadata
+      const img = nftsMetadata[index].img
+      newNfts.push({
+        data: nftsData[index],
+        metadata: {
+          attributes: metadata.attributes,
+          description: metadata.description,
+          name: metadata.name,
+          image: img,
+        }
+      })
+    })
+
+    setNfts(newNfts)
   }
 
   return (
