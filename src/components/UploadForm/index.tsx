@@ -3,6 +3,15 @@ import { useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { NFTStorage } from 'nft.storage'
 import { NFTAttributeProps } from './types'
+import { useNFTWrite } from '../../contexts/NFTWrite/useNFTWrite'
+import { Modal } from '..'
+
+enum STEPS {
+  UPLOADING_IPFS,
+  WAITING_TX,
+  SUCCESS,
+  NONE
+}
 
 const UploadForm = () => {
   const [file, setFile] = useState<File>()
@@ -11,7 +20,9 @@ const UploadForm = () => {
   const [attributes, setAttributes] = useState<string[]>([])
   const [values, setValues] = useState<string[]>([])
   const [error, setError] = useState<string>('')
-  const [loading, setLoading] = useState<boolean>(false)
+  const [step, setStep] = useState<STEPS>(STEPS.NONE)
+
+  const nftWrite = useNFTWrite()
 
   const onDrop = (files: File[]) => {
     setFile(files[0])
@@ -35,15 +46,14 @@ const UploadForm = () => {
 
   const handleSubmit = async () => {
     setError("")
-    setLoading(true)
     if (!isValid()) {
-      setLoading(false)
       return setError("Um erro ocorreu. Por favor, preencha os campos corretamente")
     }
-
-    const metadata = await uploadNft()
-    setLoading(false)
-    console.log(metadata)
+    setStep(STEPS.UPLOADING_IPFS)
+    const token = await uploadNft()
+    setStep(STEPS.WAITING_TX)
+    await nftWrite.create(token.ipnft)
+    setStep(STEPS.SUCCESS)
   }
 
   const isValid = () => {
@@ -73,6 +83,25 @@ const UploadForm = () => {
     return formatted
   }
 
+  const renderModalContent = () => {
+    let text = ""
+    switch (step) {
+      case STEPS.UPLOADING_IPFS:
+        text = "Enviando dados para o NFT Storage e salvando utilizando IPFS..."
+        break
+
+      case STEPS.WAITING_TX:
+        text = "Aguardando a transação se completar. Utilize o Metamask e aguarde alguns segundos..."
+        break
+
+      case STEPS.SUCCESS:
+        text = "NFT criado com sucesso! Parabéns"
+        break
+    }
+
+    return text
+  }
+
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     onDrop,
     multiple: false,
@@ -83,18 +112,13 @@ const UploadForm = () => {
     }
   })
 
-  const renderLoader = () => {
-    return (
-      <div className='loader'>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-    )
-  }
-
   return (
     <div className='upload-form'>
+      <Modal
+        children={<h1 className='step-text'>{renderModalContent()}</h1>}
+        open={step !== STEPS.NONE}
+        onClose={() => setStep(STEPS.NONE)}
+      />
       <div className='upload-form__dropzone' {...getRootProps()}>
         <input {...getInputProps()} readOnly />
         {
@@ -125,10 +149,8 @@ const UploadForm = () => {
       <button
         className='upload-form__button'
         onClick={handleSubmit}
-        disabled={loading}
       >
-        {loading ? "Criando NFT" : "Criar NFT"}
-        {loading && renderLoader()}
+        Criar NFT
       </button>
     </div>
   )

@@ -28,11 +28,14 @@ export const NFTWriteProvider = ({ children }: NFTWriteProviderData) => {
     }
   }, [])
 
+  useEffect(() => {
+    const web3 = new Web3(window.ethereum)
+    const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS)
+    setContract(contract)
+  }, [connectedWallet])
+
   const connect = async () => {
     await window.ethereum.request({ method: 'eth_requestAccounts' })
-    const web3 = new Web3(window.ethereum)
-    const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS) 
-    setContract(contract)
   }
 
   const setWallet = async (accounts: string[]) => {
@@ -45,8 +48,8 @@ export const NFTWriteProvider = ({ children }: NFTWriteProviderData) => {
     setConnectedWallet('')
   }
 
-  const create = async () => {
-    const nft = await contract.methods.create("0x6C75Cb9336A48cfc4c6Ae4D0013a77e3559A99C0", "").send({
+  const create = async (uri: string) => {
+    const nft = await contract.methods.create(connectedWallet, uri).send({
       from: connectedWallet
     })
     console.log(nft)
