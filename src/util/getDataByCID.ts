@@ -5,6 +5,16 @@ type IPFSData = {
   name: string,
 }
 
+type IPFSImageData = {
+  Links: [
+    {
+      Hash: {'/': string},
+      Name: string
+      Tsize: number
+    }
+  ]
+}
+
 const getDataByCID = async (cid: string) => {
   const response = await fetch(`https://ipfs.io/ipfs/${cid}/?format=dag-json`)
   const toJson: IPFSData = await response.json()
@@ -13,7 +23,7 @@ const getDataByCID = async (cid: string) => {
 
 const getImageByCID = async (cid: string) => {
   const response = await fetch(`https://ipfs.io/ipfs/${cid}/?format=dag-json`)
-  const toJson = await response.json()
+  const toJson: IPFSImageData = await response.json()
   const imageFileName = toJson.Links[0].Name
 
   const imgResponse = await fetch(`https://ipfs.io/ipfs/${cid}/${imageFileName}`)
