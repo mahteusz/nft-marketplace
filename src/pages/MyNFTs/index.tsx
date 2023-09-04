@@ -1,8 +1,12 @@
 import './styles.scss'
+import { Header, MyNFTsList } from '../../components'
 
 const MyNFTs = () => {
   return (
-    <div>MyNFTs</div>
+    <>
+      <Header />
+      <MyNFTsList />
+    </>
   )
 }
 

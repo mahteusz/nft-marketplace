@@ -4,10 +4,10 @@ import './styles.scss'
 const Explore = () => {
 
   return (
-    <div>
+    <>
       <Header />
       <Offers />
-    </div>
+    </>
   )
 }
 

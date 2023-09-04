@@ -1,0 +1,57 @@
+@import '../../styles/mixins.scss';
+
+.my-nft-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 30rem;
+  border: 0.2rem solid;
+  box-shadow: 0.4rem 0.4rem;
+  border-radius: 0.8rem;
+
+  @include spacify(padding, small);
+  @include spacify(gap, x-small);
+
+  &__image {
+    width: 100%;
+    height: 25rem;
+    border-radius: 0.5rem;
+  }
+
+  &__name {
+    text-align: center;
+
+    @include fontify(bold, medium);
+  }
+
+  &__price {
+    text-align: center;
+    border-radius: 0.5rem;
+    padding: 0.3rem;
+
+    @include themify(background-color, secondary);
+    @include fontify(bold, small);
+  }
+
+  &__sell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border: 0.3rem solid;
+    box-shadow: 0.4rem 0.4rem;
+    border-radius: 0.5rem;
+    transition: all 0.25s ease;
+
+    &:hover {
+      transform: scale(1.05);
+      cursor: pointer;
+    }
+
+    @include spacify(padding, x-small);
+    @include spacify(gap, x-small);
+    @include themify(background-color, primary);
+    @include fontify(bold, small);
+  }
+}
