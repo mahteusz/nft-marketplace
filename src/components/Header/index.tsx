@@ -57,7 +57,7 @@ const Header = () => {
         </div>
         <div
           className='header__navigation-item'
-          onClick={() => navigate("my-nfts")}
+          onClick={() => navigate("/my-nfts")}
         >
           <MdOutlineToken className='header__navigation-item-icon' />
           <span className='header__navigation-item-name'>
