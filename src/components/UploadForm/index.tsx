@@ -111,6 +111,7 @@ const UploadForm = () => {
     <div className='upload-form'>
       <Modal
         open={step !== STEPS.NONE}
+        onClose={() => setStep(STEPS.NONE)}
       >
         <h1 className='step-text'>{renderModalContent()}</h1>
       </Modal>

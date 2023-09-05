@@ -148,7 +148,7 @@ export const NFTProvider = ({ children }: NFTProviderData) => {
         offer: nftsOffers[index]
       })
     })
-
+    console.log(nfts)
     setNfts(newNfts)
   }
 
