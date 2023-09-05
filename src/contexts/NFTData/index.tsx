@@ -1,5 +1,5 @@
 import { useState, createContext, useEffect } from 'react'
-import { NFTData, NFT, NFTContextData, NFTProviderData, Offer } from './types'
+import { NFTData, NFT, NFTContextData, NFTProviderData, Offer, SalesData, HistoryData } from './types'
 import Web3 from "web3"
 import { Contract } from 'web3-eth-contract'
 import { AbiItem } from 'web3-utils';
@@ -185,9 +185,43 @@ export const NFTProvider = ({ children }: NFTProviderData) => {
     await getAll()
   }
 
+  const getCreator = async (token: number) => {
+    const transfers = await contract.getPastEvents('Transfer', {
+      filter: {
+        from: ADDRESS_0
+      },
+      fromBlock:0
+    })
+
+    const foundTransfer = transfers.find(transfer => transfer.returnValues.tokenId == token)
+    return foundTransfer!.returnValues.to as string
+  }
+
+  const getHistory = async (token: number) => {
+    const sales = await contract.getPastEvents('Sell', {
+      fromBlock: 0,
+    })
+    
+    const salesOfToken: SalesData[] = []
+    sales.forEach(sale => {
+      if(sale.returnValues.tokenId == token && sale.returnValues.to != ADDRESS_0){
+        salesOfToken.push({
+          from: sale.returnValues.from,
+          to: sale.returnValues.to,
+          price: sale.returnValues.price,
+        })
+      }
+    })
+    const creator = await getCreator(token)
+    return {
+      creator,
+      sales: salesOfToken
+    } as HistoryData
+  }
+
 
   return (
-    <NFTContext.Provider value={{ nfts, getNftsOf, refresh, getSelling, isForSale, loading }}>
+    <NFTContext.Provider value={{ nfts, getNftsOf, refresh, getSelling, isForSale, loading, getHistory }}>
       {loading ? <Loading /> : children}
     </NFTContext.Provider>
   )

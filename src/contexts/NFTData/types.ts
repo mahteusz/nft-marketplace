@@ -24,10 +24,22 @@ type NFTContextData = {
   refresh(): Promise<void>,
   isForSale(nft: NFT): boolean
   getSelling(): NFT[],
+  getHistory(token: number): Promise<HistoryData>
 }
 
 type NFTProviderData = {
   children: React.ReactNode
+}
+
+type SalesData = {
+  from: string,
+  to: string,
+  price: number,
+}
+
+type HistoryData = {
+  creator: string,
+  sales: SalesData[]
 }
 
 type Offer = {
@@ -36,4 +48,7 @@ type Offer = {
   finished: boolean
 }
 
-export { type NFTContextData, type NFTProviderData, type NFTData, type NFTMetadata, type NFT, type Offer }
+export {
+  type NFTContextData, type NFTProviderData, type NFTData,
+  type NFTMetadata, type NFT, type Offer, type SalesData, type HistoryData
+}

@@ -7,6 +7,7 @@ import { AbiItem } from 'web3-utils';
 import { CONTRACT_ADDRESS } from '../../util/contracts';
 import { Loading } from '../../pages'
 import { useNFTData } from '../NFTData/useNFTData'
+import { fromWeiToEther, fromEtherToWei } from '../../util/ether'
 
 const CONTRACT_ABI = NFTMarketplace as unknown as AbiItem
 
@@ -63,11 +64,8 @@ export const NFTWriteProvider = ({ children }: NFTWriteProviderData) => {
   }
 
   const createOffer = async (token: number, price: number) => {
-    const pow = Math.pow(10, 18)
-    const priceInWei = price * pow      //Converting from eth to wei
-
     try {
-      await contract.methods.createOffer(token, priceInWei.toString()).send({
+      await contract.methods.createOffer(token, fromEtherToWei(price).toString()).send({
         from: connectedWallet
       })
       await nftData.refresh()
@@ -88,12 +86,10 @@ export const NFTWriteProvider = ({ children }: NFTWriteProviderData) => {
   }
 
   const buy = async (token: number, price: number) => {
-    const pow = Math.pow(10, 18)
-    const priceInWei = price * pow      //Converting from eth to wei
     try {
       await contract.methods.buy(token).send({
         from: connectedWallet,
-        value: priceInWei
+        value: fromEtherToWei(price)
       })
       await nftData.refresh()
     } catch (err) {

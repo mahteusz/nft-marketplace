@@ -1,15 +1,28 @@
 import './styles.scss'
+import { useState, useEffect } from 'react'
 import { minifyWalletAddress } from '../utils'
 import { MdOutlineDescription, MdOutlineStarOutline, MdHistory } from 'react-icons/md'
 import { Props } from './types'
 import { useNFTData } from '../../contexts/NFTData/useNFTData'
 import { useNFTWrite } from '../../contexts/NFTWrite/useNFTWrite'
 import { areAddressesEqual } from '../../util/compareAddress'
+import { HistoryData } from '../../contexts/NFTData/types'
+import { fromWeiToEther } from '../../util/ether'
 
 const NFTData = ({ nft }: Props) => {
+  const [history, setHistory] = useState<HistoryData>()
 
   const nftData = useNFTData()
   const nftWrite = useNFTWrite()
+
+  useEffect(() => {
+    getHistory()
+  }, [nftData.nfts])
+
+  const getHistory = async () => {
+    const tokenHistory = await nftData.getHistory(nft.data.token)
+    setHistory(tokenHistory)
+  }
 
   return (
     <main className='nft-data'>
@@ -89,11 +102,20 @@ const NFTData = ({ nft }: Props) => {
         <div className='divider'></div>
         <div className='nft-data__container-content-container'>
           <span className='nft-data__container-content'>
-            Criado por 0x6C7...99C0
+            {`Criado por ${minifyWalletAddress(history?.creator ?? "")}`}
           </span>
-          <span className='nft-data__container-content'>
-            Vendido para 0x7B3...51A2 por 0.5 ETH
-          </span>
+          {
+            history?.sales.map(sale => {
+              return (
+                <span className='nft-data__container-content'>
+                  {
+                    `Vendido de ${minifyWalletAddress(sale.from)}
+                     para ${minifyWalletAddress(sale.to)} por ${fromWeiToEther(sale.price)} ETH`
+                  }
+                </span>
+              )
+            })
+          }
         </div>
       </div>
     </main>
