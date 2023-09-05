@@ -31,7 +31,7 @@ const MyNFTsList = () => {
                 img={nft.metadata.image}
                 name={nft.metadata.name}
                 key={nft.data.token}
-                selling={nft.offer.price > 0 && !nft.offer.finished}
+                selling={nftsData.isForSale(nft)}
               />
             )
           })

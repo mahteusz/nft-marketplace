@@ -59,7 +59,7 @@ export const NFTWriteProvider = ({ children }: NFTWriteProviderData) => {
 
   const createOffer = async (token: number, price: number) => {
     const pow = Math.pow(10, 18)
-    const priceInWei = price * pow
+    const priceInWei = price * pow      //Converting from eth to wei
     await contract.methods.createOffer(token, priceInWei.toString()).send({
       from: connectedWallet
     })

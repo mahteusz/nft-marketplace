@@ -56,10 +56,9 @@ export const NFTProvider = ({ children }: NFTProviderData) => {
 
     const owners = await Promise.all(promises)
     const originalOwners: string[] = []
-    
+
     owners.forEach((owner, index) => {
-      console.log(owner)
-      if(owner === CONTRACT_ADDRESS){
+      if (owner === CONTRACT_ADDRESS) {
         originalOwners.push(offers[index].creator)
       } else {
         originalOwners.push(owners[index])
@@ -118,6 +117,9 @@ export const NFTProvider = ({ children }: NFTProviderData) => {
     })
 
     const offers: Offer[] = await Promise.all(promises)
+    offers.forEach(offer => {
+      offer.price = offer.price / Math.pow(10, 18) //Converting from wei to eth
+    })
     return offers
   }
 
@@ -147,19 +149,33 @@ export const NFTProvider = ({ children }: NFTProviderData) => {
       })
     })
 
-    console.log(newNfts)
     setNfts(newNfts)
   }
 
   const getNftsOf = async (owner: string) => {
     const owned: NFT[] = []
     nfts.forEach(nft => {
-      if(nft.data.owner.toLowerCase() == owner){
+      if (nft.data.owner.toLowerCase() == owner) {
         owned.push(nft)
       }
     })
 
     return owned
+  }
+
+  const isForSale = (nft: NFT) => {
+    return nft.offer.price > 0 && !nft.offer.finished
+  }
+
+  const getSelling = () => {
+    const selling: NFT[] = []
+    nfts.forEach(nft => {
+      if (isForSale(nft)) {
+        selling.push(nft)
+      }
+    })
+
+    return selling
   }
 
   const refresh = async () => {
@@ -168,7 +184,7 @@ export const NFTProvider = ({ children }: NFTProviderData) => {
 
 
   return (
-    <NFTContext.Provider value={{ nfts, getNftsOf, refresh }}>
+    <NFTContext.Provider value={{ nfts, getNftsOf, refresh, getSelling, isForSale }}>
       {children}
     </NFTContext.Provider>
   )

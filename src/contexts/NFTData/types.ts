@@ -19,8 +19,10 @@ type NFT = {
 
 type NFTContextData = {
   nfts: NFT[],
-  getNftsOf(owner: string): Promise<NFT[]>
-  refresh(): Promise<void>
+  getNftsOf(owner: string): Promise<NFT[]>,
+  refresh(): Promise<void>,
+  isForSale(nft: NFT): boolean
+  getSelling(): NFT[],
 }
 
 type NFTProviderData = {
