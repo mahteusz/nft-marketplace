@@ -48,6 +48,7 @@ export const NFTWriteProvider = ({ children }: NFTWriteProviderData) => {
     if (!accounts || !accounts.length) return clearWallet()
 
     setConnectedWallet(accounts[0])
+    nftData.refresh()
   }
 
   const clearWallet = async () => {

@@ -4,6 +4,7 @@ import { MdOutlineDescription, MdOutlineStarOutline, MdHistory } from 'react-ico
 import { Props } from './types'
 import { useNFTData } from '../../contexts/NFTData/useNFTData'
 import { useNFTWrite } from '../../contexts/NFTWrite/useNFTWrite'
+import { areAddressesEqual } from '../../util/compareAddress'
 
 const NFTData = ({ nft }: Props) => {
 
@@ -30,9 +31,15 @@ const NFTData = ({ nft }: Props) => {
           {nft.offer.price}
         </h2>
 
-        <button className='nft-data__buy' onClick={() => nftWrite.buy(nft.data.token, nft.offer.price)}>
-          Comprar
-        </button>
+        {
+          !areAddressesEqual(nftWrite.connectedWallet, nft.data.owner) &&
+          <button
+            className='nft-data__buy'
+            onClick={() => nftWrite.buy(nft.data.token, nft.offer.price)}
+          >
+            Comprar
+          </button>
+        }
       </div>
 
       <div className='nft-data__container'>
@@ -44,32 +51,33 @@ const NFTData = ({ nft }: Props) => {
         </div>
         <div className='divider'></div>
         <span className='nft-data__container-content'>
-          Esta é a "Cool Characters" - Uma coleção única de NFTs que dá vida a vários personagens
-          com características diferentes e legais! Prepare-se para embarcar em uma jornada colorida
-          e mágica, onde personagens cativantes ganham vida através da arte digital.
+          {nft.metadata.description}
         </span>
       </div>
 
-      <div className='nft-data__container'>
-        <div className='nft-data__container-title-container'>
-          <MdOutlineStarOutline className='nft-data__container-icon' />
-          <h1 className='nft-data__container-title'>
-            Atributos
-          </h1>
+      {
+        nft.metadata.attributes.length &&
+        <div className='nft-data__container'>
+          <div className='nft-data__container-title-container'>
+            <MdOutlineStarOutline className='nft-data__container-icon' />
+            <h1 className='nft-data__container-title'>
+              Atributos
+            </h1>
+          </div>
+          <div className='divider'></div>
+          <div className='nft-data__container-content-container'>
+            {
+              nft.metadata.attributes.map(attribute => {
+                return (
+                  <span className='nft-data__container-content'>
+                    {`${attribute['trait_type']}: ${attribute['value']}`}
+                  </span>
+                )
+              })
+            }
+          </div>
         </div>
-        <div className='divider'></div>
-        <div className='nft-data__container-content-container'>
-          <span className='nft-data__container-content'>
-            character: astronaut
-          </span>
-          <span className='nft-data__container-content'>
-            background: pink
-          </span>
-          <span className='nft-data__container-content'>
-            item: bitcoin
-          </span>
-        </div>
-      </div>
+      }
 
       <div className='nft-data__container'>
         <div className='nft-data__container-title-container'>

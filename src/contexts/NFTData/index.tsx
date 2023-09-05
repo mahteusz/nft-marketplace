@@ -181,6 +181,7 @@ export const NFTProvider = ({ children }: NFTProviderData) => {
   }
 
   const refresh = async () => {
+    console.log("Refreshing...")
     await getAll()
   }
 
