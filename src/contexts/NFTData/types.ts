@@ -6,19 +6,19 @@ type NFTMetadata = {
 }
 
 type NFTData = {
-  token: string,
+  token: number,
   uri: string,
   owner: string
 }
 
 type NFT = {
   data: NFTData,
-  metadata: NFTMetadata
+  metadata: NFTMetadata,
+  offer: Offer
 }
 
 type NFTContextData = {
   nfts: NFT[],
-  getSelling(): Promise<NFT[]>
   getNftsOf(owner: string): Promise<NFT[]>
   refresh(): Promise<void>
 }

@@ -9,7 +9,6 @@ import { Modal } from '..'
 enum STEPS {
   UPLOADING_IPFS,
   WAITING_TX,
-  SUCCESS,
   NONE
 }
 
@@ -53,8 +52,7 @@ const UploadForm = () => {
     const token = await uploadNft()
     setStep(STEPS.WAITING_TX)
     await nftWrite.create(token.ipnft)
-    setStep(STEPS.SUCCESS)
-    setAttributes([])
+    setStep(STEPS.NONE)
   }
 
   const isValid = () => {
@@ -94,10 +92,6 @@ const UploadForm = () => {
       case STEPS.WAITING_TX:
         text = "Aguardando a transação se completar. Utilize o Metamask e aguarde alguns segundos..."
         break
-
-      case STEPS.SUCCESS:
-        text = "NFT criado com sucesso! Parabéns"
-        break
     }
 
     return text
@@ -116,10 +110,10 @@ const UploadForm = () => {
   return (
     <div className='upload-form'>
       <Modal
-        children={<h1 className='step-text'>{renderModalContent()}</h1>}
         open={step !== STEPS.NONE}
-        onClose={() => setStep(STEPS.NONE)}
-      />
+      >
+        <h1 className='step-text'>{renderModalContent()}</h1>
+      </Modal>
       <div className='upload-form__dropzone' {...getRootProps()}>
         <input {...getInputProps()} readOnly />
         {

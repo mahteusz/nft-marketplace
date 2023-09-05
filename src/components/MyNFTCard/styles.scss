@@ -54,4 +54,30 @@
     @include themify(background-color, primary);
     @include fontify(bold, small);
   }
+
+  &__cancel-offer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border: 0.3rem solid;
+    box-shadow: 0.4rem 0.4rem;
+    border-radius: 0.5rem;
+    transition: all 0.25s ease;
+
+    &:hover {
+      transform: scale(1.05);
+      cursor: pointer;
+    }
+
+    @include spacify(padding, x-small);
+    @include spacify(gap, x-small);
+    @include themify(background-color, secondary);
+    @include fontify(bold, small);
+  }
+}
+
+.step-text {
+  text-align: center;
+  @include fontify(bold, medium);
 }

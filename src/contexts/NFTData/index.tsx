@@ -4,11 +4,10 @@ import Web3 from "web3"
 import { Contract } from 'web3-eth-contract'
 import { AbiItem } from 'web3-utils';
 import NFTMarketplace from '../../contracts/ABI/NFTMarketplace.json'
-import { CONTRACT_ADDRESS } from '../../util/contracts';
+import { CONTRACT_ADDRESS, ADDRESS_0 } from '../../util/contracts';
 import getDataByCID, { IPFSData, getImageByCID } from '../../util/getTokenData';
 
 const CONTRACT_ABI = NFTMarketplace as unknown as AbiItem
-const ADDRESS_0 = "0x0000000000000000000000000000000000000000"
 
 export const NFTContext = createContext<NFTContextData>(
   {} as NFTContextData
@@ -33,7 +32,7 @@ export const NFTProvider = ({ children }: NFTProviderData) => {
   }
 
   const getTokens = async () => {
-    const tokens: string[] = []
+    const tokens: number[] = []
     const transfers = await contract?.getPastEvents("Transfer", {
       filter: {
         from: ADDRESS_0
@@ -48,17 +47,29 @@ export const NFTProvider = ({ children }: NFTProviderData) => {
     return tokens
   }
 
-  const getOwners = async (tokens: string[]) => {
+  const getOwners = async (tokens: number[]) => {
+    const offers = await getOffers(tokens)
     const promises: Promise<string>[] = []
     tokens.forEach(token => {
       promises.push(contract.methods.ownerOf(token).call())
     })
 
     const owners = await Promise.all(promises)
-    return owners
+    const originalOwners: string[] = []
+    
+    owners.forEach((owner, index) => {
+      console.log(owner)
+      if(owner === CONTRACT_ADDRESS){
+        originalOwners.push(offers[index].creator)
+      } else {
+        originalOwners.push(owners[index])
+      }
+    })
+
+    return originalOwners
   }
 
-  const getUris = async (tokens: string[]) => {
+  const getUris = async (tokens: number[]) => {
     const promises: Promise<string>[] = []
     tokens.forEach(token => {
       promises.push(contract.methods.tokenURI(token).call())
@@ -77,7 +88,7 @@ export const NFTProvider = ({ children }: NFTProviderData) => {
     }
   }
 
-  const getData = async (tokens: string[], uris: string[], owners: string[]) => {
+  const getData = async (tokens: number[], uris: string[], owners: string[]) => {
     const nftsData: NFTData[] = []
     tokens.forEach((token, index) => {
       nftsData.push({
@@ -90,7 +101,7 @@ export const NFTProvider = ({ children }: NFTProviderData) => {
     return nftsData
   }
 
-  const getMetadata = async (tokens: string[], uris: string[]) => {
+  const getMetadata = async (tokens: number[], uris: string[]) => {
     const promises: Promise<{ metadata: IPFSData, img: string }>[] = []
     tokens.forEach((_, index) => {
       promises.push(getTokenMetadata(uris[index]))
@@ -100,6 +111,15 @@ export const NFTProvider = ({ children }: NFTProviderData) => {
     return metadata
   }
 
+  const getOffers = async (tokens: number[]) => {
+    const promises: Promise<Offer>[] = []
+    tokens.forEach(token => {
+      promises.push(contract.methods.offers(token).call())
+    })
+
+    const offers: Offer[] = await Promise.all(promises)
+    return offers
+  }
 
   const getAll = async () => {
     if (!contract) return
@@ -109,6 +129,7 @@ export const NFTProvider = ({ children }: NFTProviderData) => {
     const owners = await getOwners(tokens)
     const nftsData = await getData(tokens, uris, owners)
     const nftsMetadata = await getMetadata(tokens, uris)
+    const nftsOffers = await getOffers(tokens)
     const newNfts: NFT[] = []
 
     tokens.forEach((_, index) => {
@@ -121,34 +142,23 @@ export const NFTProvider = ({ children }: NFTProviderData) => {
           description: metadata.description,
           name: metadata.name,
           image: img,
-        }
+        },
+        offer: nftsOffers[index]
       })
     })
 
+    console.log(newNfts)
     setNfts(newNfts)
   }
 
-  const getSelling = async () => {
-    const promises: Promise<Offer>[] = []
+  const getNftsOf = async (owner: string) => {
+    const owned: NFT[] = []
     nfts.forEach(nft => {
-      promises.push(contract.methods.offers(nft.data.token).call())
-    })
-
-    const offers = await Promise.all(promises)
-    const nftsInOffer: NFT[] = []
-    offers.forEach((offer, index) => {
-      if (!offer.finished && offer.creator != ADDRESS_0) {
-        nftsInOffer.push(nfts[index])
+      if(nft.data.owner.toLowerCase() == owner){
+        owned.push(nft)
       }
     })
 
-    return nftsInOffer
-  }
-
-  const getNftsOf = async (owner: string) => {
-    const owned = nfts.filter(nft => {
-      nft.data.owner == owner
-    })
     return owned
   }
 
@@ -158,7 +168,7 @@ export const NFTProvider = ({ children }: NFTProviderData) => {
 
 
   return (
-    <NFTContext.Provider value={{ nfts, getSelling, getNftsOf, refresh }}>
+    <NFTContext.Provider value={{ nfts, getNftsOf, refresh }}>
       {children}
     </NFTContext.Provider>
   )

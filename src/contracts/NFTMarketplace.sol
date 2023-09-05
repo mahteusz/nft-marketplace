@@ -48,7 +48,7 @@ contract NFTMarketplace is ERC721URIStorage {
     function finishOffer(uint256 tokenId) public {
         NFTOffer storage offer = offers[tokenId];
         require(
-            offer.finished == true,
+            offer.finished == false,
             "NFTMarketplace: Offer already finished"
         );
         require(

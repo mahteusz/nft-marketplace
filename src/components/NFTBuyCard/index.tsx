@@ -11,7 +11,7 @@ const NFTBuyCard = ({img, name, price, owner}: Props) => {
         src={img} />
 
       <div className='nft-buy-card__blockies-container'>
-        <Blockies seed={owner} />
+        <Blockies seed={owner.toLowerCase()} />
       </div>
 
       <h1 className='nft-buy-card__name'>{name}</h1>

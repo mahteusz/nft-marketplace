@@ -55,8 +55,22 @@ export const NFTWriteProvider = ({ children }: NFTWriteProviderData) => {
     console.log(nft)
   }
 
+  const createOffer = async (token: number, price: number) => {
+    const pow = Math.pow(10, 18)
+    const priceInWei = price * pow
+    await contract.methods.createOffer(token, priceInWei.toString()).send({
+      from: connectedWallet
+    })
+  }
+
+  const finishOffer = async (token: number) => {
+    await contract.methods.finishOffer(token).send({
+      from: connectedWallet
+    })
+  }
+
   return (
-    <NFTWriteContext.Provider value={{ connectedWallet, error, connect, create }}>
+    <NFTWriteContext.Provider value={{ connectedWallet, error, connect, create, createOffer, finishOffer }}>
       {children}
     </NFTWriteContext.Provider>
   )

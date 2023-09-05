@@ -2,7 +2,9 @@ type NFTWriteContextData = {
   connectedWallet: string,
   error: string,
   connect(): Promise<void>,
-  create(uri: string): Promise<void>
+  create(uri: string): Promise<void>,
+  createOffer(token: number, price: number): Promise<void>
+  finishOffer(token: number): Promise<void>
 }
 
 type NFTWriteProviderData = {
