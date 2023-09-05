@@ -1,0 +1,62 @@
+@import '../../styles/mixins.scss';
+
+.sell-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  @include spacify(gap, small);
+
+  &__title {
+    text-align: center;
+    @include fontify(bold, medium);
+  }
+
+  &__input {
+    border: 0.3rem solid;
+    box-shadow: 0.4rem 0.4rem;
+    border-radius: 0.5rem;
+    width: 75%;
+    @include fontify(bold, small);
+
+
+    &::placeholder {
+      @include fontify(bold, small);
+      @include themify(color, custom-grey);
+    }
+
+    &:focus {
+      border: 0.3rem solid;
+      outline: 0;
+    }
+
+    @include spacify(padding, x-small);
+    @include themify(background-color, background);
+  }
+
+  &__button {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0.3rem solid;
+    box-shadow: 0.4rem 0.4rem;
+    border-radius: 0.5rem;
+    transition: all 0.25s ease;
+
+    &:hover {
+      transform: scale(1.05);
+      cursor: pointer;
+    }
+
+    @include spacify(padding, x-small);
+    @include spacify(gap, x-small);
+    @include themify(background-color, primary);
+    @include fontify(bold, small);
+  }
+
+  &__info {
+    text-align: center;
+    @include fontify(bold, small);
+  }
+}

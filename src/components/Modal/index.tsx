@@ -1,8 +1,8 @@
 import './styles.scss'
-import { useEffect } from 'react'
+import { useEffect, MouseEvent } from 'react'
 import { Props } from "./types"
 
-const Modal = ({ open, children }: Props) => {
+const Modal = ({ open, children, onClose }: Props) => {
 
   useEffect(() => {
     if (open)
@@ -19,10 +19,14 @@ const Modal = ({ open, children }: Props) => {
     document.body.style.overflow = 'unset'
   }
 
+  const handleOuterClick = (e: MouseEvent<HTMLElement>) => {
+    e.stopPropagation()
+  }
+
   const renderContent = () => {
     return (
-      <div className='modal'>
-        <div className='modal__content'>
+      <div className='modal' onClick={onClose}>
+        <div className='modal__content' onClick={handleOuterClick}>
           {children}
         </div>
       </div>
