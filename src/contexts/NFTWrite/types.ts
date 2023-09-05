@@ -1,6 +1,7 @@
 type NFTWriteContextData = {
   connectedWallet: string,
   error: string,
+  loading: boolean,
   connect(): Promise<void>,
   create(uri: string): Promise<void>,
   createOffer(token: number, price: number): Promise<void>

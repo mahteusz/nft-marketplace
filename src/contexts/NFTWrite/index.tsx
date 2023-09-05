@@ -16,6 +16,7 @@ export const NFTWriteProvider = ({ children }: NFTWriteProviderData) => {
   const [connectedWallet, setConnectedWallet] = useState<string>('')
   const [error, setError] = useState<string>('')
   const [contract, setContract] = useState<Contract>({} as Contract)
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     if (!window.ethereum) return setError("Por favor, instale o Metamask")
@@ -32,6 +33,7 @@ export const NFTWriteProvider = ({ children }: NFTWriteProviderData) => {
     const web3 = new Web3(window.ethereum)
     const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS)
     setContract(contract)
+    setLoading(false)
   }, [connectedWallet])
 
   const connect = async () => {
@@ -70,7 +72,9 @@ export const NFTWriteProvider = ({ children }: NFTWriteProviderData) => {
   }
 
   return (
-    <NFTWriteContext.Provider value={{ connectedWallet, error, connect, create, createOffer, finishOffer }}>
+    <NFTWriteContext.Provider
+      value={{ connectedWallet, error, connect, loading, create, createOffer, finishOffer }}
+    >
       {children}
     </NFTWriteContext.Provider>
   )
