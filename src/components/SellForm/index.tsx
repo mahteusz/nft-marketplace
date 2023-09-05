@@ -3,12 +3,14 @@ import { useState } from 'react'
 import { Props } from './types'
 
 const SellForm = ({ outerSetPrice, onSubmit }: Props) => {
-  const [price, setPrice] = useState<number>(0)
+  const [price, setPrice] = useState<number>(0.1)
   const [waitingForTransaction, setWaitingForTransaction] = useState<boolean>(false)
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPrice(Number(e.target.value))
-    outerSetPrice(Number(e.target.value))
+    const numberValue = Number(e.target.value)
+    const newValue = numberValue < 0.1 ? 0.1 : numberValue
+    setPrice(newValue)
+    outerSetPrice(newValue)
   }
 
   const handleSubmit = () => {
