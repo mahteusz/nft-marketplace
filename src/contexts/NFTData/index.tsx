@@ -6,6 +6,7 @@ import { AbiItem } from 'web3-utils';
 import NFTMarketplace from '../../contracts/ABI/NFTMarketplace.json'
 import { CONTRACT_ADDRESS, ADDRESS_0 } from '../../util/contracts';
 import getDataByCID, { IPFSData, getImageByCID } from '../../util/getTokenData';
+import { Loading } from '../../pages';
 
 const CONTRACT_ABI = NFTMarketplace as unknown as AbiItem
 
@@ -16,6 +17,7 @@ export const NFTContext = createContext<NFTContextData>(
 export const NFTProvider = ({ children }: NFTProviderData) => {
   const [nfts, setNfts] = useState<NFT[]>([])
   const [contract, setContract] = useState<Contract>({} as Contract)
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     init()
@@ -148,8 +150,8 @@ export const NFTProvider = ({ children }: NFTProviderData) => {
         offer: nftsOffers[index]
       })
     })
-    console.log(nfts)
     setNfts(newNfts)
+    setLoading(false)
   }
 
   const getNftsOf = async (owner: string) => {
@@ -184,8 +186,8 @@ export const NFTProvider = ({ children }: NFTProviderData) => {
 
 
   return (
-    <NFTContext.Provider value={{ nfts, getNftsOf, refresh, getSelling, isForSale }}>
-      {children}
+    <NFTContext.Provider value={{ nfts, getNftsOf, refresh, getSelling, isForSale, loading }}>
+      {loading ? <Loading /> : children}
     </NFTContext.Provider>
   )
 }

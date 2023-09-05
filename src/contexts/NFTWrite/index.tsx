@@ -5,6 +5,8 @@ import { Contract } from 'web3-eth-contract'
 import NFTMarketplace from '../../contracts/ABI/NFTMarketplace.json'
 import { AbiItem } from 'web3-utils';
 import { CONTRACT_ADDRESS } from '../../util/contracts';
+import { Loading } from '../../pages'
+import { useNFTData } from '../NFTData/useNFTData'
 
 const CONTRACT_ABI = NFTMarketplace as unknown as AbiItem
 
@@ -17,6 +19,8 @@ export const NFTWriteProvider = ({ children }: NFTWriteProviderData) => {
   const [error, setError] = useState<string>('')
   const [contract, setContract] = useState<Contract>({} as Contract)
   const [loading, setLoading] = useState<boolean>(true)
+
+  const nftData = useNFTData()
 
   useEffect(() => {
     if (!window.ethereum) return setError("Por favor, instale o Metamask")
@@ -65,6 +69,7 @@ export const NFTWriteProvider = ({ children }: NFTWriteProviderData) => {
       await contract.methods.createOffer(token, priceInWei.toString()).send({
         from: connectedWallet
       })
+      nftData.refresh()
     } catch (err) {
       console.warn(err)
     }
@@ -75,16 +80,31 @@ export const NFTWriteProvider = ({ children }: NFTWriteProviderData) => {
       await contract.methods.finishOffer(token).send({
         from: connectedWallet
       })
-    } catch(err) {
+      nftData.refresh()
+    } catch (err) {
+      console.warn(err)
+    }
+  }
+
+  const buy = async (token: number, price: number) => {
+    const pow = Math.pow(10, 18)
+    const priceInWei = price * pow      //Converting from eth to wei
+    try {
+      await contract.methods.buy(token).send({
+        from: connectedWallet,
+        value: priceInWei
+      })
+      nftData.refresh()
+    } catch (err) {
       console.warn(err)
     }
   }
 
   return (
     <NFTWriteContext.Provider
-      value={{ connectedWallet, error, connect, loading, create, createOffer, finishOffer }}
+      value={{ connectedWallet, error, connect, loading, create, createOffer, finishOffer, buy }}
     >
-      {children}
+      {loading ? <Loading /> : children}
     </NFTWriteContext.Provider>
   )
 }

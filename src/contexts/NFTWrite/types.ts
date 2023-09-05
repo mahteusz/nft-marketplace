@@ -6,6 +6,7 @@ type NFTWriteContextData = {
   create(uri: string): Promise<void>,
   createOffer(token: number, price: number): Promise<void>
   finishOffer(token: number): Promise<void>
+  buy(token: number, value: number): Promise<void>
 }
 
 type NFTWriteProviderData = {

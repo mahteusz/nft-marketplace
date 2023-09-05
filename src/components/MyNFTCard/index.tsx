@@ -17,7 +17,6 @@ const MyNFTCard = ({ token, img, name, selling, price }: Props) => {
   const handleFinishOffer = async (token: number) => {
     setFinishOfferModalOpen(true)
     await nftWrite.finishOffer(token)
-    await nftData.refresh()
     setFinishOfferModalOpen(false)
   }
 

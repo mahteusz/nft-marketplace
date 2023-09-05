@@ -1,29 +1,36 @@
 import './styles.scss'
 import { minifyWalletAddress } from '../utils'
 import { MdOutlineDescription, MdOutlineStarOutline, MdHistory } from 'react-icons/md'
+import { Props } from './types'
+import { useNFTData } from '../../contexts/NFTData/useNFTData'
+import { useNFTWrite } from '../../contexts/NFTWrite/useNFTWrite'
 
-const NFTData = () => {
+const NFTData = ({ nft }: Props) => {
+
+  const nftData = useNFTData()
+  const nftWrite = useNFTWrite()
+
   return (
     <main className='nft-data'>
       <div className='nft-data__card'>
         <img
           className='nft-data__image'
-          src="https://static.vecteezy.com/system/resources/previews/005/728/775/original/astronaut-carrying-bitcoin-cryptocurrency-coin-cute-cartoon-icon-illustration-vector.jpg"
+          src={nft.metadata.image}
         />
 
         <span className='nft-data__owner'>
-          Dono: {minifyWalletAddress("0x6C75Cb9336A48cfc4c6Ae4D0013a77e3559A99C0")}
+          Dono: {minifyWalletAddress(nft.data.owner)}
         </span>
 
         <h1 className='nft-data__name'>
-          Cool Characters #3
+          {nft.metadata.name}
         </h1>
 
         <h2 className='nft-data__price'>
-          1 ETH
+          {nft.offer.price}
         </h2>
 
-        <button className='nft-data__buy'>
+        <button className='nft-data__buy' onClick={() => nftWrite.buy(nft.data.token, nft.offer.price)}>
           Comprar
         </button>
       </div>
