@@ -1,0 +1,166 @@
+@import '../../styles/mixins.scss';
+
+.nft-data {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  @include spacify(gap, x-large);
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 0.2rem solid;
+    box-shadow: 0.4rem 0.4rem;
+    border-radius: 0.8rem;
+    width: 30rem;
+
+    @include spacify(padding, small);
+    @include spacify(gap, small);
+
+    @include respond(sm) {
+      width: 60%;
+    }
+
+    @include respond(md) {
+      width: 40%;
+    }
+  }
+
+  &__owner {
+    @include themify(color, custom-grey);
+
+    @include respond(lg) {
+      @include fontify(normal, x-small);
+    }
+  }
+
+  &__image {
+    width: 70%;
+    height: 70%;
+    border-radius: 0.5rem;
+  }
+
+  &__name {
+    text-align: center;
+
+    @include fontify(bold, medium);
+
+    @include respond(lg) {
+      @include fontify(bold, large);
+    }
+  }
+
+  &__price {
+    text-align: center;
+    border-radius: 0.5rem;
+    padding: 0.3rem;
+
+    @include themify(background-color, secondary);
+    @include fontify(bold, small);
+
+    @include respond(lg) {
+      @include fontify(bold, medium);
+    }
+  }
+
+  &__buy {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    border: 0.3rem solid;
+    box-shadow: 0.4rem 0.4rem;
+    border-radius: 0.5rem;
+    transition: all 0.25s ease;
+
+    &:hover {
+      transform: scale(1.05);
+      cursor: pointer;
+    }
+
+    @include spacify(padding, x-small);
+    @include spacify(gap, x-small);
+    @include themify(background-color, primary);
+    @include fontify(bold, small);
+
+    @include respond(lg) {
+      @include fontify(bold, medium);
+    }
+  }
+
+  &__container {
+    display: flex;
+    width: 30rem;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border: 0.2rem solid;
+    box-shadow: 0.4rem 0.4rem;
+    border-radius: 0.8rem;
+
+    @include spacify(padding, small);
+
+    @include respond(sm) {
+      width: 60%;
+    }
+
+    @include respond(md) {
+      width: 50%;
+    }
+  }
+
+  &__container-title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include spacify(gap, x-small);
+  }
+
+  &__container-icon {
+    font-size: 2rem;
+
+    @include respond(md) {
+      font-size: 3.5rem;
+    }
+
+  }
+
+  &__container-title {
+    text-align: center;
+
+    @include fontify(bold, small);
+
+    @include respond(lg) {
+      @include fontify(bold, medium);
+    }
+  }
+
+  &__container-content-container {
+    display: flex;
+    flex-direction: column;
+
+    @include spacify(gap, x-small);
+  }
+  
+  &__container-content {
+
+    @include fontify(bold, x-small);
+
+    @include respond(lg) {
+      @include fontify(bold, small);
+    }
+  }
+}
+
+.divider {
+  width: 100%;
+  height: 0.2rem;
+  background-color: black;
+
+  @include spacify(margin-top, small);
+  @include spacify(margin-bottom, small);
+}

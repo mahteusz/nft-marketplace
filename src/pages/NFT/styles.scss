@@ -1,0 +1,9 @@
+@import '../../styles/mixins.scss';
+
+.nft {
+  display: flex;
+  flex-direction: column;
+
+  @include spacify(gap, x-large);
+  @include spacify(margin-bottom, x-large);
+}
