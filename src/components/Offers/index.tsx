@@ -26,7 +26,7 @@ const Offers = () => {
               img={nft.metadata.image}
               owner={nft.data.owner}
               name={nft.metadata.name}
-              price={nft.offer.price.toString()}
+              price={nft.offer.price}
               key={nft.data.token}
             />
           )

@@ -5,7 +5,7 @@ import { Props } from './types'
 import { Modal } from '..'
 import { useNFTData } from '../../contexts/NFTData/useNFTData'
 
-const MyNFTCard = ({ token, img, name, selling }: Props) => {
+const MyNFTCard = ({ token, img, name, selling, price }: Props) => {
   const [openModal, setOpenModal] = useState<boolean>(false)
 
   const nftData = useNFTData()
@@ -31,6 +31,9 @@ const MyNFTCard = ({ token, img, name, selling }: Props) => {
       />
 
       <h1 className='my-nft-card__name'>{name}</h1>
+      {
+        selling && <h2 className='my-nft-card__price'>{price} ETH</h2>
+      }
 
       {
         selling ?

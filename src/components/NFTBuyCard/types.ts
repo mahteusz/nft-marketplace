@@ -1,7 +1,7 @@
 type Props = {
   img: string,
   name: string,
-  price: string,
+  price: number,
   owner: string
 }
 

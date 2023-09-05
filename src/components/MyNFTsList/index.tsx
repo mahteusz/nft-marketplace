@@ -32,6 +32,7 @@ const MyNFTsList = () => {
                 name={nft.metadata.name}
                 key={nft.data.token}
                 selling={nftsData.isForSale(nft)}
+                price={nft.offer.price}
               />
             )
           })
