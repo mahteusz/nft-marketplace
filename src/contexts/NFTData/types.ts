@@ -17,11 +17,20 @@ type NFT = {
 }
 
 type NFTContextData = {
-  nfts: NFT[]
+  nfts: NFT[],
+  getSelling(): Promise<NFT[]>
+  getNftsOf(owner: string): Promise<NFT[]>
+  refresh(): Promise<void>
 }
 
 type NFTProviderData = {
   children: React.ReactNode
 }
 
-export { type NFTContextData, type NFTProviderData, type NFTData, type NFTMetadata, type NFT }
+type Offer = {
+  price: number,
+  creator: string,
+  finished: boolean
+}
+
+export { type NFTContextData, type NFTProviderData, type NFTData, type NFTMetadata, type NFT, type Offer }

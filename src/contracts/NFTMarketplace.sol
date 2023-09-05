@@ -14,7 +14,7 @@ struct NFTOffer {
 contract NFTMarketplace is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private tokenIds;
-    mapping(uint256 => NFTOffer) private offers;
+    mapping(uint256 => NFTOffer) public offers;
 
     event Sell(address from, address to, uint256 tokenId, uint256 price);
 
@@ -59,4 +59,5 @@ contract NFTMarketplace is ERC721URIStorage {
         offer.finished = true;
         emit Sell(offer.creator, address(0), tokenId, 0);
     }
+
 }
