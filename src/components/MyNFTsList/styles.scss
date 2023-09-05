@@ -9,6 +9,12 @@
 
   &__message {
     text-align: center;
-    @include fontify(bold, medium);
+    @include spacify(padding-right, x-small);
+    @include spacify(padding-left, x-small);
+    @include fontify(bold, small);
+
+    @include respond (md) {
+      @include fontify(bold, medium);
+    }
   }
 }

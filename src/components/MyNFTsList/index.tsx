@@ -37,7 +37,7 @@ const MyNFTsList = () => {
             )
           })
           :
-          <h1 className='my-nfts__mesage'>Você ainda não possui nenhum NFT.</h1>
+          <h1 className='my-nfts__message'>Você ainda não possui nenhum NFT.</h1>
       }
     </main>
   )

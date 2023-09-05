@@ -6,4 +6,23 @@
 
   @include spacify(gap, x-large);
   @include spacify(margin-bottom, x-large);
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+
+    @include spacify(gap, large);
+  }
+
+  &__title {
+    text-align: center;
+    @include fontify(bold, small);
+
+    @include respond (md) {
+      @include fontify(bold, medium);
+    }
+  }
+
 }

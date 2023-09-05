@@ -15,6 +15,10 @@
 
   &__title {
     text-align: center;
-    @include fontify(bold, medium);
+    @include fontify(bold, small);
+
+    @include respond (md) {
+      @include fontify(bold, medium);
+    }
   }
 }
