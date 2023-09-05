@@ -17,12 +17,15 @@ const Offers = () => {
     const sellings = await nftsData.getSelling()
     setNfts(sellings)
   }
+
   return (
     <main className='offers'>
       {
+        nfts.length ?
         nfts.map(nft => {
           return ( 
             <NFTBuyCard
+              token={nft.data.token}
               img={nft.metadata.image}
               owner={nft.data.owner}
               name={nft.metadata.name}
@@ -31,6 +34,8 @@ const Offers = () => {
             />
           )
         })
+        :
+        <h1 className='offers__mesage'>Nenhum NFT à venda no momento.</h1>
       }
     </main>
   )

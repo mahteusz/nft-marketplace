@@ -6,4 +6,9 @@
   flex-wrap: wrap;
 
   @include spacify(gap, x-large);
+
+  &__message {
+    text-align: center;
+    @include fontify(bold, medium);
+  }
 }

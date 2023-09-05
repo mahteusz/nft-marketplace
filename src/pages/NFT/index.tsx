@@ -20,7 +20,7 @@ const NFT = () => {
     if (numberId >= nftsData.nfts.length) {
       navigate("/")
     } else {
-      setNftToken(numberId)
+      nftsData.isForSale(nftsData.nfts[numberId]) ? setNftToken(numberId) : navigate("/")
     }
 
   }, [])
@@ -28,7 +28,7 @@ const NFT = () => {
   return (
     <div className='nft'>
       <Header />
-        { nftToken && <NFTData nft={nftsData.nfts[nftToken]} /> }
+        { nftToken != undefined && <NFTData nft={nftsData.nfts[nftToken]} /> }
     </div>
   )
 }

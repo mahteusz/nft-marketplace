@@ -69,7 +69,7 @@ export const NFTWriteProvider = ({ children }: NFTWriteProviderData) => {
       await contract.methods.createOffer(token, priceInWei.toString()).send({
         from: connectedWallet
       })
-      nftData.refresh()
+      await nftData.refresh()
     } catch (err) {
       console.warn(err)
     }
@@ -80,7 +80,7 @@ export const NFTWriteProvider = ({ children }: NFTWriteProviderData) => {
       await contract.methods.finishOffer(token).send({
         from: connectedWallet
       })
-      nftData.refresh()
+      await nftData.refresh()
     } catch (err) {
       console.warn(err)
     }
@@ -94,7 +94,7 @@ export const NFTWriteProvider = ({ children }: NFTWriteProviderData) => {
         from: connectedWallet,
         value: priceInWei
       })
-      nftData.refresh()
+      await nftData.refresh()
     } catch (err) {
       console.warn(err)
     }
