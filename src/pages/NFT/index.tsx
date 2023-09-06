@@ -1,5 +1,5 @@
 import './styles.scss'
-import { Header, NFTData } from '../../components'
+import { Header, NFTBuy } from '../../components'
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useNFTData } from '../../contexts/NFTData/useNFTData'
@@ -28,7 +28,7 @@ const NFT = () => {
   return (
     <div className='nft'>
       <Header />
-        { nftToken != undefined && <NFTData nft={nftsData.nfts[nftToken]} /> }
+        { nftToken != undefined && <NFTBuy nft={nftsData.nfts[nftToken]} /> }
     </div>
   )
 }
