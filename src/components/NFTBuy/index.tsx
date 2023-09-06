@@ -8,9 +8,11 @@ import { useNFTWrite } from '../../contexts/NFTWrite/useNFTWrite'
 import { areAddressesEqual } from '../../util/compareAddress'
 import { HistoryData } from '../../contexts/NFTData/types'
 import { fromWeiToEther } from '../../util/ether'
+import { Modal } from '..'
 
-const NFTData = ({ nft }: Props) => {
+const NFTBuy = ({ nft }: Props) => {
   const [history, setHistory] = useState<HistoryData>()
+  const [modalOpen, setModalOpen] = useState<boolean>(false)
 
   const nftData = useNFTData()
   const nftWrite = useNFTWrite()
@@ -24,8 +26,19 @@ const NFTData = ({ nft }: Props) => {
     setHistory(tokenHistory)
   }
 
+  const handleBuy = async () => {
+    setModalOpen(true)
+    await nftWrite.buy(nft.data.token, nft.offer.price)
+    setModalOpen(false)
+  }
+
   return (
     <main className='nft-data'>
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+        <h1 className='info'>
+          Aguardando a transação se completar. Utilize o Metamask e aguarde alguns segundos...
+        </h1>
+      </Modal>
       <div className='nft-data__card'>
         <img
           className='nft-data__image'
@@ -48,7 +61,7 @@ const NFTData = ({ nft }: Props) => {
           !areAddressesEqual(nftWrite.connectedWallet, nft.data.owner) &&
           <button
             className='nft-data__buy'
-            onClick={() => nftWrite.buy(nft.data.token, nft.offer.price)}
+            onClick={handleBuy}
           >
             Comprar
           </button>
@@ -122,4 +135,4 @@ const NFTData = ({ nft }: Props) => {
   )
 }
 
-export default NFTData
+export default NFTBuy

@@ -66,6 +66,11 @@
     }
   }
 
+  &__info {
+    text-align: center;
+    @include fontify(bold, medium);
+  }
+
   &__buy {
     display: flex;
     justify-content: center;
@@ -145,7 +150,7 @@
 
     @include spacify(gap, x-small);
   }
-  
+
   &__container-content {
 
     @include fontify(bold, x-small);
