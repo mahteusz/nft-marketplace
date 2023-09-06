@@ -82,7 +82,7 @@ const NFTBuy = ({ nft }: Props) => {
       </div>
 
       {
-        nft.metadata.attributes.length &&
+        nft.metadata.attributes.length > 0 &&
         <div className='nft-data__container'>
           <div className='nft-data__container-title-container'>
             <MdOutlineStarOutline className='nft-data__container-icon' />
