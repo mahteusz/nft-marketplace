@@ -27,6 +27,7 @@ contract NFTMarketplace is ERC721URIStorage {
     }
 
     function createOffer(uint256 tokenId, uint256 price) public {
+        require(price > 0, "NFTMarketplace: Price should be greater than 0");
         approve(address(this), tokenId);
         transferFrom(msg.sender, address(this), tokenId);
         offers[tokenId] = NFTOffer(price, msg.sender, false);
@@ -37,6 +38,10 @@ contract NFTMarketplace is ERC721URIStorage {
         require(
             offer.finished == false,
             "NFTMarketplace: Offer already finished"
+        );
+        require(
+            offer.creator != msg.sender,
+            "NFTMarketplace: Buyer should be different from the seller"
         );
         require(msg.value == offer.price, "NFTMarketplace: Incorret price");
         ERC721(address(this)).transferFrom(address(this), msg.sender, tokenId);
@@ -59,5 +64,4 @@ contract NFTMarketplace is ERC721URIStorage {
         offer.finished = true;
         emit Sell(offer.creator, address(0), tokenId, 0);
     }
-
 }
