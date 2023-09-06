@@ -7,7 +7,7 @@ import { AbiItem } from 'web3-utils';
 import { CONTRACT_ADDRESS } from '../../util/contracts';
 import { Loading } from '../../pages'
 import { useNFTData } from '../NFTData/useNFTData'
-import { fromWeiToEther, fromEtherToWei } from '../../util/ether'
+import { fromEtherToWei } from '../../util/ether'
 
 const CONTRACT_ABI = NFTMarketplace as unknown as AbiItem
 
@@ -57,10 +57,9 @@ export const NFTWriteProvider = ({ children }: NFTWriteProviderData) => {
   }
 
   const create = async (uri: string) => {
-    const nft = await contract.methods.create(connectedWallet, uri).send({
+    await contract.methods.create(connectedWallet, uri).send({
       from: connectedWallet
     })
-    console.log(nft)
   }
 
   const createOffer = async (token: number, price: number) => {

@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { useNFTWrite } from '../../contexts/NFTWrite/useNFTWrite'
 import { Props } from './types'
 import { Modal, SellForm } from '..'
-import { useNFTData } from '../../contexts/NFTData/useNFTData'
 
 const MyNFTCard = ({ token, img, name, selling, price }: Props) => {
   const [finishOfferModalOpen, setFinishOfferModalOpen] = useState<boolean>(false)
@@ -11,7 +10,6 @@ const MyNFTCard = ({ token, img, name, selling, price }: Props) => {
   const [createOfferPrice, setCreateOfferPrice] = useState<number>(0)
   const [selectedTokenToSell, setSelectedTokenToSell] = useState<number>()
 
-  const nftData = useNFTData()
   const nftWrite = useNFTWrite()
 
   const handleFinishOffer = async (token: number) => {

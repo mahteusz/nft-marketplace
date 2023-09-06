@@ -5,7 +5,7 @@ import { MdOutlineDescription, MdOutlineStarOutline, MdHistory } from 'react-ico
 import { Props } from './types'
 import { useNFTData } from '../../contexts/NFTData/useNFTData'
 import { useNFTWrite } from '../../contexts/NFTWrite/useNFTWrite'
-import { areAddressesEqual } from '../../util/compareAddress'
+import { areAddressesEqual } from '../../util/address'
 import { HistoryData } from '../../contexts/NFTData/types'
 import { fromWeiToEther } from '../../util/ether'
 import { Modal } from '..'

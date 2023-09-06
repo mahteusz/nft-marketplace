@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useNFTWrite } from '../../contexts/NFTWrite/useNFTWrite'
-import { areAddressesEqual } from '../../util/compareAddress'
+import { areAddressesEqual } from '../../util/address'
 import './styles.scss'
 import { Props } from './types'
 //@ts-ignore
