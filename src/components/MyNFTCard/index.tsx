@@ -7,7 +7,7 @@ import { Modal, SellForm } from '..'
 const MyNFTCard = ({ token, img, name, selling, price }: Props) => {
   const [finishOfferModalOpen, setFinishOfferModalOpen] = useState<boolean>(false)
   const [createOfferModalOpen, setCreateOfferModalOpen] = useState<boolean>(false)
-  const [createOfferPrice, setCreateOfferPrice] = useState<number>(0)
+  const [createOfferPrice, setCreateOfferPrice] = useState<number>(0.1)
   const [selectedTokenToSell, setSelectedTokenToSell] = useState<number>()
 
   const nftWrite = useNFTWrite()
